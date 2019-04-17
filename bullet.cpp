@@ -1,51 +1,48 @@
 #include "bullet.h"
-#include <QTimer>
-#include <QGraphicsScene>
-#include <QList>
 #include "enemy.h"
 #include "game.h"
+#include <QGraphicsScene>
+#include <QList>
+#include <QTimer>
 
-extern Game * game; // there is an external global object called game
+extern Game* game;
 
-Bullet::Bullet(QGraphicsItem *parent): QObject(), QGraphicsPixmapItem(parent){
-    // drew the bullet (a rectangle)
+Bullet::Bullet(QGraphicsItem* parent)
+    : QObject()
+    , QGraphicsPixmapItem(parent)
+{
     setPixmap(QPixmap(":/images/bullet.png"));
 
-    // make/connect a timer to move() the bullet every so often
-    QTimer * timer = new QTimer(this);
-    connect(timer,SIGNAL(timeout()),this,SLOT(move()));
-
-    // start the timer
+    QTimer* timer = new QTimer(this);
+    QObject::connect(timer, &QTimer::timeout,
+        this, &Bullet::move);
     timer->start(50);
 }
 
-void Bullet::move(){
-    // get a list of all the items currently colliding with this bullet
-    QList<QGraphicsItem *> colliding_items = collidingItems();
+void Bullet::move()
+{
+    QList<QGraphicsItem*> colliding_items = collidingItems();
 
-    // if one of the colliding items is an Enemy, destroy both the bullet and the enemy
-    for (int i = 0, n = colliding_items.size(); i < n; ++i){
-        if (typeid(*(colliding_items[i])) == typeid(Enemy)){
+    // destroy both the bullet and the enemy
+    for (QGraphicsItem* item : colliding_items) {
+        if (typeid(*(item)) == typeid(Enemy)) {
             // increase the score
             game->score->increase();
 
-            // remove them from the scene (still on the heap)
-            scene()->removeItem(colliding_items[i]);
+            scene()->removeItem(item);
             scene()->removeItem(this);
 
-            // delete them from the heap to save memory
-            delete colliding_items[i];
+            delete item;
             delete this;
 
-            // return (all code below refers to a non existint bullet)
             return;
         }
     }
 
-    // if there was no collision with an Enemy, move the bullet forward
-    setPos(x(),y()-10);
-    // if the bullet is off the screen, destroy it
-    if (pos().y() + pixmap().height() < 0){
+    // move the bullet forward
+    setPos(x(), y() - 10);
+    // destroy it
+    if (pos().y() + pixmap().height() < 0) {
         scene()->removeItem(this);
         delete this;
     }

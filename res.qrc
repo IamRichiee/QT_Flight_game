@@ -1,6 +1,6 @@
 <RCC>
     <qresource prefix="/sounds">
-        <file>It_Devours.mp3</file>
+        <file>Map.wav</file>
     </qresource>
     <qresource prefix="/images">
         <file>player.png</file>

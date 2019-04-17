@@ -29,18 +29,20 @@ SOURCES += \
         main.cpp \
     bullet.cpp \
     enemy.cpp \
-    game.cpp \
     score.cpp \
     health.cpp \
-    player.cpp
+    player.cpp \
+    button.cpp \
+    game.cpp
 
 HEADERS += \
     bullet.h \
     enemy.h \
-    game.h \
     score.h \
     health.h \
-    player.h
+    player.h \
+    button.h \
+    game.h
 
 FORMS +=
 

@@ -1,16 +1,22 @@
 #include "enemy.h"
-#include <QTimer>
+#include "game.h"
 #include <QGraphicsScene>
 #include <QList>
-#include <stdlib.h> // rand() -> really large int
-#include "game.h"
+#include <QRandomGenerator>
+#include <QTimer>
 
-extern Game * game;
+extern Game* game;
 
-Enemy::Enemy(QGraphicsItem *parent): QObject(), QGraphicsPixmapItem(parent){
-    //set random x position
-    int random_number = rand() % 700;
-    setPos(random_number,0);
+Enemy::Enemy(QGraphicsItem* parent)
+    : QObject()
+    , QGraphicsPixmapItem(parent)
+{
+    // set health
+    m_health.setHealth(1);
+
+    // set random x position
+    int random_number = qrand() % game->gameSceneWidth - 100;
+    setPos(random_number, 0);
 
     // drew the rect
     setPixmap(QPixmap(":/images/enemy.png"));
@@ -18,23 +24,36 @@ Enemy::Enemy(QGraphicsItem *parent): QObject(), QGraphicsPixmapItem(parent){
     setRotation(180);
 
     // make/connect a timer to move() the enemy every so often
-    QTimer * timer = new QTimer(this);
-    connect(timer,SIGNAL(timeout()),this,SLOT(move()));
+    timer = new QTimer(this);
+    connect(timer, &QTimer::timeout, this, &Enemy::move);
 
     // start the timer
     timer->start(50);
 }
 
-void Enemy::move(){
+void Enemy::move()
+{
+    if (game->player->isDie()) {
+        selfDestruct();
+    }
     // move enemy down
-    setPos(x(),y()+5);
+    setPos(x(), y() + 5);
 
     // destroy enemy when it goes out of the screen
-    if (pos().y() > 600){
-        //decrease the health
+    if (pos().y() > game->gameSceneHeight) {
+        // decrease the health
         game->health->decrease();
 
         scene()->removeItem(this);
         delete this;
+        if (game->health->getHealth() <= 0) {
+            game->gameOver();
+        }
     }
+}
+
+void Enemy::selfDestruct()
+{
+    disconnect(timer, &QTimer::timeout, this, &Enemy::move);
+    delete this;
 }

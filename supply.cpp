@@ -42,6 +42,7 @@ void Supply::move()
     // destroy it
     if (pos().y() + pixmap().height() < 0) {
         scene()->removeItem(this);
+        game->supplies.removeOne(this);
         delete this;
     }
 }

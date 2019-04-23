@@ -5,6 +5,7 @@
 
 Button::Button(QString name, QGraphicsItem* parent)
     : QGraphicsRectItem(parent)
+    , isText(true)
 {
     //draw the rect
     setRect(0, 0, 200, 50);
@@ -27,7 +28,22 @@ Button::Button(QString name, QGraphicsItem* parent)
     setAcceptHoverEvents(true);
 }
 
-void Button::mousePressEvent(QGraphicsSceneMouseEvent* event)
+Button::Button(QPixmap image, QPixmap hoverImage, QGraphicsItem* parent)
+    : isText(false)
+{
+    icon = image;
+    hoverIcon = hoverImage;
+    // draw the rect
+    setRect(0, 0, 200, 50);
+    QBrush brush(image);
+    setBrush(brush);
+
+    // responde hover
+    setAcceptHoverEvents(true);
+}
+
+void Button::mousePressEvenButton(QString name, QGraphicsItem* parent = nullptr);
+t(QGraphicsSceneMouseEvent* event)
 {
     if (event)
         emit clicked();
@@ -35,21 +51,31 @@ void Button::mousePressEvent(QGraphicsSceneMouseEvent* event)
 
 void Button::hoverEnterEvent(QGraphicsSceneHoverEvent* event)
 {
-    // change color
-    if (event) {
-        QBrush brush;
-        brush.setStyle(Qt::SolidPattern);
-        brush.setColor(Qt::red);
+    if (isText) {
+        // change color
+        if (event) {
+            QBrush brush;
+            brush.setStyle(Qt::SolidPattern);
+            brush.setColor(Qt::red);
+            setBrush(brush);
+        }
+    } else {
+        QBrush brush(hoverIcon);
         setBrush(brush);
     }
 }
 void Button::hoverLeaveEvent(QGraphicsSceneHoverEvent* event)
 {
-    // change color
-    if (event) {
-        QBrush brush;
-        brush.setStyle(Qt::SolidPattern);
-        brush.setColor(Qt::darkRed);
+    if (isText) {
+        // change color
+        if (event) {
+            QBrush brush;
+            brush.setStyle(Qt::SolidPattern);
+            brush.setColor(Qt::darkRed);
+            setBrush(brush);
+        }
+    } else {
+        QBrush brush(icon);
         setBrush(brush);
     }
 }

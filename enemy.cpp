@@ -15,10 +15,11 @@ Enemy::Enemy(QGraphicsItem* parent)
     m_health.setHealth(1);
 
     setPixmap(QPixmap(":/images/enemy.png"));
+    setOffset(-boundingRect().width(), 0);
 
     // set random x position
-    auto random_number = qrand() % game->gameSceneWidth - (boundingRect().width()) / 2;
-    setPos(random_number, 0);
+    auto randomNumber = qrand() % game->gameSceneWidth;
+    setPos(randomNumber, -boundingRect().height());
 
     // drew the rect
     setTransformOriginPoint(boundingRect().width() / 2, boundingRect().height() / 2);
@@ -33,7 +34,7 @@ Enemy::Enemy(QGraphicsItem* parent)
 
     bulletTimer = new QTimer(this);
     connect(bulletTimer, &QTimer::timeout, this, &Enemy::shot);
-    bulletTimer->start(2000);
+    bulletTimer->start(1000);
 }
 
 void Enemy::move()
@@ -81,7 +82,7 @@ void Enemy::shot()
 {
     // create a bullet
     EnemyBullet* enemyBullet = new EnemyBullet();
-    enemyBullet->setPos(x() + 56, y());
+    enemyBullet->setPos(x() + 1.5 * this->boundingRect().width(), y() + this->boundingRect().height());
     enemyBullet->setZValue(-1);
 
     scene()->addItem(enemyBullet);

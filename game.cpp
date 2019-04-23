@@ -11,7 +11,6 @@
 Game::Game(QWidget* parent)
     : gameSceneWidth(800)
     , gameSceneHeight(600)
-    , handle(nullptr)
 {
     Q_UNUSED(parent)
 
@@ -78,8 +77,9 @@ void Game::start()
 
     // create the player
     player = new Player(handle);
+    player->setOffset(-player->boundingRect().width() / 2, 0);
 
-    player->setPos(400, 500);
+    player->setPos(gameSceneWidth / 2, 500);
 
     player->setFlag(QGraphicsItem::ItemIsFocusable);
     player->setFocus();
@@ -112,6 +112,11 @@ void Game::gameOver()
     disconnect(suppliesTimer, &QTimer::timeout,
         this, &Game::generateSupply);
     delete handle;
+    for (Supply* item : supplies) {
+        if (item) {
+            delete item;
+        }
+    }
     health->setVisible(false);
     displayMainMenu("Game Over!", "新游戏");
     scene->removeItem(player);
@@ -123,6 +128,7 @@ void Game::generateSupply()
     Supply* supply = new Supply(handle);
     supply->setPixmap(QPixmap(":/images/supply.png"));
     supply->setPos(gameSceneWidth / 2, gameSceneHeight / 2);
+    supplies.append(supply);
     scene->addItem(supply);
 }
 
@@ -130,6 +136,7 @@ void Game::addSupply(Supply* supply)
 {
     if (typeid(*(supply)) == typeid(Supply)) {
         health->increase();
+        supplies.removeOne(supply);
     }
 }
 

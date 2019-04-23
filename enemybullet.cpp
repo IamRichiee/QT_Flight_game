@@ -11,7 +11,9 @@ EnemyBullet::EnemyBullet(QGraphicsItem* parent)
     : QObject()
     , QGraphicsPixmapItem(parent)
 {
-    setPixmap(QPixmap(":/images/enemybullet.png"));
+    setPixmap(QPixmap(":/images/enemybullt.png"));
+    setTransformOriginPoint(boundingRect().width() / 2, boundingRect().height() / 2);
+    setRotation(180);
 
     QTimer* timer = new QTimer(this);
     QObject::connect(timer, &QTimer::timeout,
@@ -23,10 +25,10 @@ void EnemyBullet::move()
 {
     QList<QGraphicsItem*> colliding_items = collidingItems();
 
-    // destroy both the bullet and the enemy
+    // destroy the bullet and decrease the health
     for (QGraphicsItem* item : colliding_items) {
         if (typeid(*(item)) == typeid(Player)) {
-            // increase the score
+            // decrease the health
             game->health->decrease();
 
             scene()->removeItem(this);

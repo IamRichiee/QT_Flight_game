@@ -42,8 +42,7 @@ Button::Button(QPixmap image, QPixmap hoverImage, QGraphicsItem* parent)
     setAcceptHoverEvents(true);
 }
 
-void Button::mousePressEvenButton(QString name, QGraphicsItem* parent = nullptr);
-t(QGraphicsSceneMouseEvent* event)
+void Button::mousePressEvent(QGraphicsSceneMouseEvent* event)
 {
     if (event)
         emit clicked();

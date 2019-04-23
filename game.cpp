@@ -54,14 +54,16 @@ void Game::displayMainMenu(QString title, QString play)
     scene->addItem(titleText);
 
     // create Button
-    Button* playButton = new Button(play, titleText);
+    QPixmap image(":/sounds/image.png");
+    QPixmap hoverImage(":/sounds/hoverImage.png");
+    Button* playButton = new Button(image, hoverImage, titleText);
     playButton->setPos(160, 160);
 
     connect(playButton, &Button::clicked,
         this, &Game::start);
 
     // Create Quit Button
-    Button* quitButton = new Button("退出", titleText);
+    Button* quitButton = new Button(image, hoverImage, titleText);
     quitButton->setPos(160, 220);
     connect(quitButton, &Button::clicked,
         this, &QGraphicsView::close);

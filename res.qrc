@@ -7,5 +7,8 @@
         <file>bg.png</file>
         <file>bullet.png</file>
         <file>enemy.png</file>
+        <file>again.png</file>
+        <file>supply.png</file>
+        <file>enemybullt.png</file>
     </qresource>
 </RCC>

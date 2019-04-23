@@ -1,23 +1,19 @@
 #ifndef ENEMY_H
 #define ENEMY_H
 
-#include "health.h"
-#include <QGraphicsItem>
-#include <QGraphicsPixmapItem>
-#include <QObject>
+#include "aircraft.h"
+#include "enemybullet.h"
 
-class Enemy : public QObject, public QGraphicsPixmapItem {
+class Enemy : public Aircraft {
     Q_OBJECT
 public:
     Enemy(QGraphicsItem* parent = nullptr);
     void selfDestruct();
+    void shot();
+    QTimer* bulletTimer;
 
-    QTimer* timer;
 public slots:
     void move();
-
-private:
-    Health m_health;
 };
 
 #endif // ENEMY_H

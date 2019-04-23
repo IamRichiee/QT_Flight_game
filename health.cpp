@@ -36,8 +36,12 @@ void Health::setHealth(int initHealth)
 
 void Health::display()
 {
+    QString heart("");
+    for (int i = 0; i < health; i++) {
+        heart += "❤";
+    }
     if (m_visible) {
-        setPlainText(QString("Health: ") + QString::number(health));
+        setPlainText(QString("Health: ") + heart);
     }
 }
 

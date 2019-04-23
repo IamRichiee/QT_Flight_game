@@ -4,6 +4,7 @@
 Score::Score(QGraphicsItem* parent)
     : QGraphicsTextItem(parent)
     , score(0)
+    , m_score("")
 {
     // draw the text
     display();
@@ -26,6 +27,9 @@ int Score::getScore()
 void Score::setScore(int initScore)
 {
     this->score = initScore;
+    for (int i = 0; i < initScore; i++) {
+
+    }
 }
 
 void Score::display()

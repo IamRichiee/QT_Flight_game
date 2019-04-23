@@ -8,19 +8,20 @@
 extern Game* game;
 
 Enemy::Enemy(QGraphicsItem* parent)
-    : QObject()
-    , QGraphicsPixmapItem(parent)
 {
+    Q_UNUSED(parent)
+
     // set health
     m_health.setHealth(1);
 
+    setPixmap(QPixmap(":/images/enemy.png"));
+
     // set random x position
-    int random_number = qrand() % game->gameSceneWidth - 100;
+    auto random_number = qrand() % game->gameSceneWidth - (boundingRect().width()) / 2;
     setPos(random_number, 0);
 
     // drew the rect
-    setPixmap(QPixmap(":/images/enemy.png"));
-    setTransformOriginPoint(50, 50);
+    setTransformOriginPoint(boundingRect().width() / 2, boundingRect().height() / 2);
     setRotation(180);
 
     // make/connect a timer to move() the enemy every so often
@@ -29,6 +30,10 @@ Enemy::Enemy(QGraphicsItem* parent)
 
     // start the timer
     timer->start(50);
+
+    bulletTimer = new QTimer(this);
+    connect(bulletTimer, &QTimer::timeout, this, &Enemy::shot);
+    bulletTimer->start(2000);
 }
 
 void Enemy::move()
@@ -36,6 +41,20 @@ void Enemy::move()
     if (game->player->isDie()) {
         selfDestruct();
     }
+    QList<QGraphicsItem*> colliding_items = collidingItems();
+
+    // destroy both the enemy and the player
+    for (QGraphicsItem* item : colliding_items) {
+        if (typeid(*(item)) == typeid(Player)) {
+
+            scene()->removeItem(this);
+            game->gameOver();
+
+            selfDestruct();
+            return;
+        }
+    }
+
     // move enemy down
     setPos(x(), y() + 5);
 
@@ -56,4 +75,16 @@ void Enemy::selfDestruct()
 {
     disconnect(timer, &QTimer::timeout, this, &Enemy::move);
     delete this;
+}
+
+void Enemy::shot()
+{
+    // create a bullet
+    EnemyBullet* enemyBullet = new EnemyBullet();
+    enemyBullet->setPos(x() + 56, y());
+    enemyBullet->setZValue(-1);
+
+    scene()->addItem(enemyBullet);
+
+    // playe EnemyBullet sounds
 }

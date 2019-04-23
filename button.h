@@ -3,6 +3,7 @@
 
 #include <QGraphicsRectItem>
 #include <QGraphicsSceneMouseEvent>
+#include <QIcon>
 
 class Button : public QObject, public QGraphicsRectItem {
     Q_OBJECT

@@ -1,9 +1,10 @@
 #include "player.h"
 #include "bullet.h"
 #include "enemy.h"
+#include "game.h"
 #include <QGraphicsScene>
 #include <QKeyEvent>
-
+extern Game* game;
 Player::Player(QGraphicsItem* parent)
     : QGraphicsPixmapItem(parent)
     , handle(parent)
@@ -24,11 +25,15 @@ void Player::keyPressEvent(QKeyEvent* event)
     } else if (event->key() == Qt::Key_Right || event->key() == Qt::Key_D) {
         if (pos().x() + 100 < 800)
             setPos(x() + 10, y());
+    } else if (event->key() == Qt::Key_Up || event->key() == Qt::Key_W) {
+        setPos(x(), y() - 10);
+    } else if (event->key() == Qt::Key_Down || event->key() == Qt::Key_S) {
+        setPos(x(), y() + 10);
     }
     // shoot with the spacebar
     else if (event->key() == Qt::Key_Space) {
         // create a bullet
-        Bullet* bullet = new Bullet();
+        Bullet* bullet = new Bullet(handle);
         bullet->setPos(x() + 56, y());
         bullet->setZValue(-1);
 

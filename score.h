@@ -13,6 +13,7 @@ public:
 
 private:
     int score;
+    QString m_score;
 };
 
 #endif // SCORE_H

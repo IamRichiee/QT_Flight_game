@@ -33,7 +33,10 @@ SOURCES += \
     health.cpp \
     player.cpp \
     button.cpp \
-    game.cpp
+    game.cpp \
+    aircraft.cpp \
+    enemybullet.cpp \
+    supply.cpp
 
 HEADERS += \
     bullet.h \
@@ -42,7 +45,10 @@ HEADERS += \
     health.h \
     player.h \
     button.h \
-    game.h
+    game.h \
+    aircraft.h \
+    enemybullet.h \
+    supply.h
 
 FORMS +=
 

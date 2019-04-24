@@ -7,8 +7,16 @@
         <file>bg.png</file>
         <file>bullet.png</file>
         <file>enemy.png</file>
-        <file>again.png</file>
         <file>supply.png</file>
         <file>enemybullt.png</file>
+        <file>menubg.png</file>
+    </qresource>
+    <qresource prefix="/button">
+        <file>new.png</file>
+        <file>newHover.png</file>
+        <file>play.png</file>
+        <file>playHover.png</file>
+        <file>quit.png</file>
+        <file>quitHover.png</file>
     </qresource>
 </RCC>

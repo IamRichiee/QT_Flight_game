@@ -1,3 +1,4 @@
+
 #include "enemy.h"
 #include "game.h"
 #include <QGraphicsScene>
@@ -18,8 +19,8 @@ Enemy::Enemy(QGraphicsItem* parent)
     setOffset(-boundingRect().width(), 0);
 
     // set random x position
-    auto randomNumber = qrand() % game->gameSceneWidth;
-    setPos(randomNumber, -boundingRect().height());
+    auto randomNumber = qrand() % (game->gameSceneWidth - 128);
+    setPos(randomNumber - 128, -boundingRect().height());
 
     // drew the rect
     setTransformOriginPoint(boundingRect().width() / 2, boundingRect().height() / 2);

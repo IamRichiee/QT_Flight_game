@@ -38,33 +38,36 @@ Game::Game(QWidget* parent)
     // play background music
 }
 
-void Game::displayMainMenu(QString title, QString play)
+void Game::displayMainMenu(QString title, QPixmap icon, QPixmap hoverIcon)
 {
-    setBackgroundImage(QImage(":images/bullet.png"));
+    setBackgroundImage(QImage(":/images/menubg.png"));
 
     // Create the title
     titleText = new QGraphicsTextItem(title);
     titleText->setDefaultTextColor(Qt::yellow);
     QFont titleFont("Roboto", 50);
     titleText->setFont(titleFont);
-    int xPos = static_cast<int>(
-        width() / 2 - titleText->boundingRect().width() / 2);
-    int yPos = 150;
+    auto xPos = width() / 2 - titleText->boundingRect().width() / 2;
+    auto yPos = 150;
     titleText->setPos(xPos, yPos);
     scene->addItem(titleText);
 
     // create Button
-    QPixmap image(":/sounds/image.png");
-    QPixmap hoverImage(":/sounds/hoverImage.png");
-    Button* playButton = new Button(image, hoverImage, titleText);
-    playButton->setPos(160, 160);
+    playButton = new Button(icon, hoverIcon, titleText);
+    xPos = (width() - playButton->boundingRect().width()) / 2;
+    yPos = 300;
+    playButton->setPos(xPos, yPos);
+    scene->addItem(playButton);
 
     connect(playButton, &Button::clicked,
         this, &Game::start);
 
     // Create Quit Button
-    Button* quitButton = new Button(image, hoverImage, titleText);
-    quitButton->setPos(160, 220);
+    quitButton = new Button(QPixmap(":/button/quit.png"), QPixmap(":/button/quitHover.png"), titleText);
+    xPos = (width() - quitButton->boundingRect().width()) / 2;
+    yPos = 350;
+    quitButton->setPos(xPos, yPos);
+    scene->addItem(quitButton);
     connect(quitButton, &Button::clicked,
         this, &QGraphicsView::close);
 }
@@ -72,6 +75,8 @@ void Game::displayMainMenu(QString title, QString play)
 void Game::start()
 {
     scene->removeItem(titleText);
+    scene->removeItem(playButton);
+    scene->removeItem(quitButton);
     delete titleText;
     handle = new QGraphicsSimpleTextItem();
 
@@ -120,7 +125,8 @@ void Game::gameOver()
         }
     }
     health->setVisible(false);
-    displayMainMenu("Game Over!", "新游戏");
+    qDebug() << "game over";
+    displayMainMenu("Game Over!!", QPixmap(":/button/new.png"), QPixmap(":/button/newHover.png"));
     scene->removeItem(player);
     player->die();
 }

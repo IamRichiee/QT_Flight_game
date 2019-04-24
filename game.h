@@ -13,7 +13,7 @@
 class Game : public QGraphicsView {
 public:
     Game(QWidget* parent = nullptr);
-    void displayMainMenu(QString title, QString play);
+    void displayMainMenu(QString title, QPixmap icon, QPixmap hoverIcon);
     void gameOver();
     void generateSupply();
     void addSupply(Supply* supply);
@@ -31,6 +31,9 @@ private:
     QGraphicsTextItem* titleText;
     QTimer* timer;
     QTimer* suppliesTimer;
+
+    Button* playButton;
+    Button* quitButton;
 
     void setBackgroundImage(QImage image);
 

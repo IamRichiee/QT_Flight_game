@@ -2,10 +2,12 @@
 #include "enemy.h"
 #include "supply.h"
 #include <QBrush>
+#include <QElapsedTimer>
 #include <QFont>
 #include <QGraphicsTextItem>
 #include <QImage>
 #include <QMediaPlayer>
+#include <QMediaPlaylist>
 #include <QTimer>
 
 Game::Game(QWidget* parent)
@@ -35,7 +37,18 @@ Game::Game(QWidget* parent)
     timer = new QTimer();
     suppliesTimer = new QTimer();
 
-    // play background music
+    // set music
+    QMediaPlaylist* backgroundMusicList = new QMediaPlaylist();
+    backgroundMusicList->addMedia(QUrl("qrc:/sounds/Map.wav"));
+    backgroundMusicList->setCurrentIndex(1);
+    backgroundMusicList->setPlaybackMode(QMediaPlaylist::CurrentItemInLoop);
+
+    backgroundMusic = new QMediaPlayer;
+    backgroundMusic->setPlaylist(backgroundMusicList);
+    // play background
+    backgroundMusic->play();
+
+    gameOverSound = new QSound(":/sounds/game_over.wav", this);
 }
 
 void Game::displayMainMenu(QString title, QPixmap icon, QPixmap hoverIcon)
@@ -79,6 +92,8 @@ void Game::start()
     scene->removeItem(quitButton);
     delete titleText;
     handle = new QGraphicsSimpleTextItem();
+    ex = new Explosion();
+    scene->addItem(ex);
 
     setBackgroundImage(QImage(":images/bg.png"));
 
@@ -114,6 +129,7 @@ void Game::start()
 
 void Game::gameOver()
 {
+    gameOverSound->play();
     disconnect(timer, &QTimer::timeout,
         player, &Player::spawn);
     disconnect(suppliesTimer, &QTimer::timeout,
@@ -126,6 +142,10 @@ void Game::gameOver()
     }
     health->setVisible(false);
     qDebug() << "game over";
+    QElapsedTimer t;
+    t.start();
+    while (t.elapsed() < 500) {
+    }
     displayMainMenu("Game Over!!", QPixmap(":/button/new.png"), QPixmap(":/button/newHover.png"));
     scene->removeItem(player);
     player->die();

@@ -2,6 +2,7 @@
 #define GAME_H
 
 #include "button.h"
+#include "explosion.h"
 #include "health.h"
 #include "player.h"
 #include "score.h"
@@ -26,12 +27,14 @@ public:
     QList<Supply*> supplies;
     int gameSceneWidth;
     int gameSceneHeight;
+    QMediaPlayer* backgroundMusic;
+    QSound* gameOverSound;
+    Explosion* ex;
 
 private:
     QGraphicsTextItem* titleText;
     QTimer* timer;
     QTimer* suppliesTimer;
-
     Button* playButton;
     Button* quitButton;
 

@@ -1,6 +1,9 @@
 <RCC>
     <qresource prefix="/sounds">
         <file>Map.wav</file>
+        <file>game_over.wav</file>
+        <file>bullet.wav</file>
+        <file>menu_select.mp3</file>
     </qresource>
     <qresource prefix="/images">
         <file>player.png</file>
@@ -10,6 +13,7 @@
         <file>supply.png</file>
         <file>enemybullt.png</file>
         <file>menubg.png</file>
+        <file>explo.png</file>
     </qresource>
     <qresource prefix="/button">
         <file>new.png</file>

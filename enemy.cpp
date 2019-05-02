@@ -50,6 +50,8 @@ void Enemy::move()
         if (typeid(*(item)) == typeid(Player)) {
 
             scene()->removeItem(this);
+            game->ex->setPos(game->player->x(), game->player->y());
+            game->ex->start();
             game->gameOver();
 
             selfDestruct();

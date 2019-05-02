@@ -5,6 +5,7 @@
 #include <QGraphicsPixmapItem>
 #include <QMediaPlayer>
 #include <QObject>
+#include <QSound>
 
 class Player : public QObject, public QGraphicsPixmapItem {
     Q_OBJECT
@@ -25,7 +26,7 @@ public slots:
     void spawn();
 
 private:
-    QMediaPlayer* bulletsoud;
+    QSound* bulletSound;
     bool m_isDie;
     QPoint dir;
     QTimer* timer;

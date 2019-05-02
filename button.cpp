@@ -9,9 +9,6 @@ Button::Button(QPixmap image, QPixmap hoverImage, QGraphicsItem* parent)
     Q_UNUSED(parent)
     icon = new QPixmap(image);
     hoverIcon = new QPixmap(hoverImage);
-    // draw the rect
-    QBrush brush(*icon);
-    qDebug() << "draw rect";
 
     setPixmap(image);
 
@@ -21,8 +18,9 @@ Button::Button(QPixmap image, QPixmap hoverImage, QGraphicsItem* parent)
 
 void Button::mousePressEvent(QGraphicsSceneMouseEvent* event)
 {
-    if (event)
+    if (event) {
         emit clicked();
+    }
 }
 
 void Button::hoverEnterEvent(QGraphicsSceneHoverEvent* event)

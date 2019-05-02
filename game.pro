@@ -26,6 +26,7 @@ DEFINES += QT_DEPRECATED_WARNINGS
 CONFIG += c++11
 
 SOURCES += \
+    explosion.cpp \
         main.cpp \
     bullet.cpp \
     enemy.cpp \
@@ -41,6 +42,7 @@ SOURCES += \
 HEADERS += \
     bullet.h \
     enemy.h \
+    explosion.h \
     score.h \
     health.h \
     player.h \

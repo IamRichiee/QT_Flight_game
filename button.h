@@ -1,6 +1,7 @@
 #include <QGraphicsRectItem>
 #include <QGraphicsSceneMouseEvent>
 #include <QIcon>
+#include <QSound>
 
 class Button : public QObject, public QGraphicsPixmapItem {
     Q_OBJECT

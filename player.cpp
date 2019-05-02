@@ -11,9 +11,8 @@ Player::Player(QGraphicsItem* parent)
     , handle(parent)
     , m_isDie(false)
 {
-    bulletsoud = new QMediaPlayer();
+    bulletSound = new QSound(":/sounds/bullet.wav", this);
     dir = QPoint(0, 0);
-    bulletsoud->setMedia(QUrl(":/sounds/It_Devours.mp3"));
 
     setPixmap(QPixmap(":/images/player.png"));
 
@@ -53,11 +52,7 @@ void Player::keyPressEvent(QKeyEvent* event)
             scene()->addItem(bullet);
 
             // playe bullet sounds
-            if (bulletsoud->state() == QMediaPlayer::PlayingState) {
-                bulletsoud->setPosition(0);
-            } else if (bulletsoud->state() == QMediaPlayer::StoppedState) {
-                bulletsoud->play();
-            }
+            bulletSound->play();
         }
     }
 }
